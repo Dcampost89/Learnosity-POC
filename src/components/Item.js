@@ -19,9 +19,9 @@ class Item extends Component {
   async initItemEditor () {
     const learnosityService = new LearnosityService();
     this.authApp = await learnosityService.initItemsEditor();
-    this.authApp.createItem();
+    /* this.authApp.createItem();
     this.props.onSave("item", this.authApp.getItem())
-    this.authApp.on('save:success', this.onSaveItems)
+    this.authApp.on('save:success', this.onSaveItems) */
   }
 
   onSaveItems (event) {

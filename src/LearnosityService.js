@@ -37,6 +37,42 @@ export default class LearnosityService {
                   "dynamic_content": true,
                   "shared_passage": true
                 }
+            },
+            "widget_templates": {
+              "widget_types": {
+                "show": false
+              }
+            },
+            "dependencies": {
+              "question_editor_api": {
+                "init_options": {
+                  "group_defaults": false,
+                  "widget_type": "response",
+                  "ui": {
+                    "help_button": false,
+                    "source_button": false,
+                    "undo_redo_button": false
+                  },
+                  "question_types": {
+                    "mcq": {
+                        "hidden": ["multiple_responses", "shuffle_options"],
+                        "hidden_sections": [
+                          "layout",
+                          "more_options.heading",
+                          "more_options.divider",
+                          "more_options.content"
+                        ],
+                    }
+                  },
+                  "question_type_groups": [
+                    {
+                      "name": "Multiple Choice",
+                      "reference": "mcq",
+                      "template_references": ["9e8149bd-e4d8-4dd6-a751-1a113a4b9163", "3egs0b24-5gs8-49fc-fds9-4a450sdg31ca"]
+                    }
+                  ]
+                }
+              }
             }
           },
           "user": {
@@ -58,6 +94,54 @@ export default class LearnosityService {
           } 
         }
       )
+    })
+  }
+
+  initQuestionEditor () {
+    return new Promise((resolve, reject) => {
+      const request = this.learnositySdk.init(
+        // service type
+        "questions", 
+
+        // security details
+        {
+            "consumer_key": "yis0TYCu7U9V4o7M",
+            "domain":       "localhost",
+            "user_id":      "demo_student"
+        },
+
+        // secret
+        "74c5fd430cf1242a527f6223aebd42d30464be22",
+
+        // request details
+        {
+          "widget_type": "response",
+          "ui": {
+            "help_button": false,
+            "source_button": false,
+            "undo_redo_button": false
+          },
+          "question_types": {
+            "mcq": {
+                "hidden": ["multiple_responses", "shuffle_options"],
+                "hidden_sections": [
+                  "layout",
+                  "more_options.heading",
+                  "more_options.divider",
+                  "more_options.content"
+                ],
+            }
+          }
+        }
+      );
+
+      this.authorApp = window.LearnosityQuestionEditor.init(
+        request,
+        ".learnosity-question-editor",
+        {
+          readyListener: () => console.log('[LearnosityQuestionEditor] started')
+        }
+      );
     })
   }
 
