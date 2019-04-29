@@ -7,6 +7,7 @@ class Item extends Component {
     super(props);
 
     this.authApp = null;
+    this.editorApp = null;
 
     this.initItemEditor = this.initItemEditor.bind(this);
     this.onSaveItems = this.onSaveItems.bind(this);
@@ -19,13 +20,14 @@ class Item extends Component {
   async initItemEditor () {
     const learnosityService = new LearnosityService();
     this.authApp = await learnosityService.initItemsEditor();
-    /* this.authApp.createItem();
-    this.props.onSave("item", this.authApp.getItem())
-    this.authApp.on('save:success', this.onSaveItems) */
+    this.editorApp = this.authApp.editorApp();
+    console.log('[editorApp]', this.editorApp);
+    this.authApp.on('save:success', this.onSaveItems)
   }
 
   onSaveItems (event) {
     console.log('[onSaveItems]', event.data);
+    this.props.onSave("item", event.data.item.reference)
   }
   render () {
     return (

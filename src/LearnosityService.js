@@ -204,8 +204,8 @@ export default class LearnosityService {
 
       // request details
       {
-        "activity_id": activityId,
-        "items": items,
+        "activity_id": "",
+        "items": [items],
         "name": "Test Activity",
         "rendering_type": "assess",
         "session_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
