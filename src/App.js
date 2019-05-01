@@ -12,6 +12,7 @@ class App extends Component {
       questions: [],
       item: "",
       activity: "",
+      items: [],
       currenView: "item"
     };
 
@@ -36,17 +37,10 @@ class App extends Component {
     }
     return (
       <div>
-        <div>
-          <ul>
-            <li><a onClick={() => this.updateContext("currenView", "item")}>Item Editor</a></li>
-            <li><a onClick={() => this.updateContext("currenView", "activity")}>Activity Editor</a></li>
-            <li><a onClick={() => this.updateContext("currenView", "preview")}>Preview</a></li>
-          </ul>
-        </div>
-        <hr />
         <ComponentToRender 
           onSave={this.updateContext} 
           activity={this.state.activity} 
+          items={this.state.items}
           item={this.state.item} 
         />
       </div>

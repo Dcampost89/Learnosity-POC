@@ -12,7 +12,7 @@ export default class LearnosityService {
     return new Promise((resolve, reject) => {
       const request = this.learnositySdk.init(
         // service type
-        "items", 
+        "author", 
   
         // security details
         {
@@ -55,7 +55,7 @@ export default class LearnosityService {
                   },
                   "question_types": {
                     "mcq": {
-                        "hidden": ["multiple_responses", "shuffle_options"],
+                        "show": ["multiple_responses", "shuffle_options"],
                         "hidden_sections": [
                           "layout",
                           "more_options.heading",
@@ -148,7 +148,7 @@ export default class LearnosityService {
   initActivityEditor () {
     return new Promise((resolve, reject) => {
       const request = this.learnositySdk.init(
-        "items", 
+        "author", 
 
         {
           "consumer_key": "yis0TYCu7U9V4o7M",
@@ -161,7 +161,39 @@ export default class LearnosityService {
         {
           "mode": "activity_edit",
           "config": {
-            "activity_edit": {}
+            "activity_edit": {
+              "reference": {
+                "show": false
+              },
+              "source": false,
+              "item_search": {
+                "sort": false,
+                "filter": {
+                  "restricted": {
+                    "current_user": true
+                  }
+                },
+                "toolbar": {
+                  "search": {
+                    "show": false,
+                    "widget_type": false,
+                    "tags": {
+                      "show": false
+                    }
+                  }
+                }
+              }
+            },
+            "item_list": {
+              "filter": {
+                "restricted": {
+                  "current_user": true
+                }
+              },
+              "title": {
+                "show": true
+              }
+            }
           },
           "user": {
             "id": "demos-site",
@@ -204,8 +236,8 @@ export default class LearnosityService {
 
       // request details
       {
-        "activity_id": "",
-        "items": [items],
+        "activity_id": activityId,
+        "items": items,
         "name": "Test Activity",
         "rendering_type": "assess",
         "session_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",

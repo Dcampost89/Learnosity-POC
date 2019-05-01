@@ -5,7 +5,7 @@ class Preview extends Component {
 
   componentDidMount () {
     const learnosity = new LearnosityService();
-    learnosity.preview(this.props.activity.activity_id, this.props.item)
+    learnosity.preview(this.props.activity, this.props.items)
   }
 
   render() {

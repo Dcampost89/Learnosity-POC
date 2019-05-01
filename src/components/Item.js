@@ -20,14 +20,14 @@ class Item extends Component {
   async initItemEditor () {
     const learnosityService = new LearnosityService();
     this.authApp = await learnosityService.initItemsEditor();
-    this.editorApp = this.authApp.editorApp();
-    console.log('[editorApp]', this.editorApp);
+    // this.editorApp = this.authApp.editorApp();
     this.authApp.on('save:success', this.onSaveItems)
   }
 
   onSaveItems (event) {
-    console.log('[onSaveItems]', event.data);
-    this.props.onSave("item", event.data.item.reference)
+    console.log('[onSaveItems]', event);
+    // this.props.onSave("item", event.data.item.reference)
+    this.props.onSave("currenView", "activity");
   }
   render () {
     return (
