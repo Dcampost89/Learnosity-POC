@@ -8,93 +8,102 @@ export default class LearnosityService {
   }
 
   initItemsEditor () {
-    // Render the item-edit widget
-    return new Promise((resolve, reject) => {
-      const request = this.learnositySdk.init(
-        // service type
-        "author", 
-  
-        // security details
-        {
-            "consumer_key": "yis0TYCu7U9V4o7M",
-            "domain":       "localhost",
-            "user_id":      "demo_student"
-        },
-  
-        // secret
-        "74c5fd430cf1242a527f6223aebd42d30464be22",
-  
-        // request details
-        {
-          "mode": "item_edit",
-          "reference": uuid(),
-          "config": {
-            "item_edit": {
-                "item": {
-                  "reference": {
-                      "edit": true
-                  },
-                  "dynamic_content": true,
-                  "shared_passage": true
-                }
-            },
-            "widget_templates": {
-              "widget_types": {
-                "show": false
+    const request = this.learnositySdk.init(
+      // service type
+      "author", 
+
+      // security details
+      {
+          "consumer_key": "yis0TYCu7U9V4o7M",
+          "domain":       "localhost",
+          "user_id":      "demo_student"
+      },
+
+      // secret
+      "74c5fd430cf1242a527f6223aebd42d30464be22",
+
+      // request details
+      {
+        "mode": "item_edit",
+        "reference": uuid(),
+        "config": {
+          "item_edit": {
+              "item": {
+                "reference": {
+                    "edit": true
+                },
+                "dynamic_content": true,
+                "shared_passage": true
               }
-            },
-            "dependencies": {
-              "question_editor_api": {
-                "init_options": {
-                  "group_defaults": false,
-                  "widget_type": "response",
-                  "ui": {
-                    "help_button": false,
-                    "source_button": false,
-                    "undo_redo_button": false
-                  },
-                  "question_types": {
-                    "mcq": {
-                        "show": ["multiple_responses", "shuffle_options"],
-                        "hidden_sections": [
-                          "layout",
-                          "more_options.heading",
-                          "more_options.divider",
-                          "more_options.content"
-                        ],
-                    }
-                  },
-                  "question_type_groups": [
-                    {
-                      "name": "Multiple Choice",
-                      "reference": "mcq",
-                      "template_references": ["9e8149bd-e4d8-4dd6-a751-1a113a4b9163", "3egs0b24-5gs8-49fc-fds9-4a450sdg31ca"]
-                    }
-                  ]
-                }
-              }
+          },
+          "widget_templates": {
+            "widget_types": {
+              "show": false
             }
           },
-          "user": {
-            "id": "demos-site",
-            "firstname": "Demos",
-            "lastname": "User",
-            "email": "demos@learnosity.com"
+          "dependencies": {
+            "question_editor_api": {
+              "init_options": {
+                "group_defaults": false,
+                "widget_type": "response",
+                "ui": {
+                  "layout": {
+                    "global_template": "edit"
+                  },
+                  "help_button": false,
+                  "source_button": false,
+                  "undo_redo_button": false
+                },
+                "base_question_type": {
+                  "hidden_sections": [
+                    "more_options.heading",
+                    "more_options.divider",
+                    "more_options.content"
+                  ]
+                },
+                "question_types": {
+                  "mcq": {
+                      "show": ["multiple_responses", "shuffle_options"],
+                      "hidden_sections": [
+                        "layout",
+                        "more_options.heading",
+                        "more_options.divider",
+                        "more_options.content"
+                      ],
+                  }
+                },
+                "question_type_groups": [
+                  {
+                    "name": "Multiple Choice",
+                    "reference": "mcq",
+                    "template_references": [
+                      "9e8149bd-e4d8-4dd6-a751-1a113a4b9163", 
+                      "3egs0b24-5gs8-49fc-fds9-4a450sdg31ca"
+                    ]
+                  },
+                  {
+                    "name": "Fill in the Blanks (Cloze)",
+                    "reference": "cloze",
+                    "template_references": [
+                      "51a8c1e7-f34f-4faf-b211-da458e891fcb",
+                      "2fbba51b-e35e-441f-83c7-2662e2e81fa6"
+                    ]
+                  }
+                ]
+              }
+            }
           }
+        },
+        "user": {
+          "id": "demos-site",
+          "firstname": "Demos",
+          "lastname": "User",
+          "email": "demos@learnosity.com"
         }
-      );
+      }
+    );
 
-      this.authorApp = window.LearnosityAuthor.init(
-        request, 
-        { 
-          readyListener: () => {
-            console.log('[success] itemEditor initialized');
-            return resolve(this.authorApp)
-            // this.authorApp.on('save:success', this.onSaveSuccessCb.bind(this))
-          } 
-        }
-      )
-    })
+    return request;
   }
 
   initQuestionEditor () {
