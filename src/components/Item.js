@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import LearnosityService from '../LearnosityService';
+import { Grid, Paper, Button, List, ListItem, ListItemText, ListSubheader } from '@material-ui/core'
 
 class Item extends Component {
 
@@ -8,15 +9,12 @@ class Item extends Component {
 
     this.authorApp = null;
     this.state = {
-      shouldModalOpen: false
+      items: []
     }
 
     this.initItemEditor = this.initItemEditor.bind(this);
     this.onSaveItems = this.onSaveItems.bind(this);
-  }
-
-  componentDidMount () {
-    // this.initItemEditor()
+    this.onGoToAssesment = this.onGoToAssesment.bind(this);
   }
 
   initItemEditor () {
@@ -27,41 +25,61 @@ class Item extends Component {
       request, 
       { 
         readyListener: () => {
-          console.log('[success] itemEditor initialized');
-          this.authorApp.on('render:item', () => {
-            this.authorApp.setWidget(
-              {}, 
-              {"template_reference": "9e8149bd-e4d8-4dd6-a751-1a113a4b9163"}
-            );
-          });
+          // this.authorApp.on('widgetedit:editor:ready', () => {
+          //   const itemId = uuid();
+          //   this.authorApp.createItem(itemId);
+          // });
           this.authorApp.on('save:success', this.onSaveItems);
         } 
       }
     )
   }
 
-  onSaveItems (event) {
-    console.log('[onSaveItems]', event);
-    // this.authorApp.destroy();
-    this.props.onSave("currenView", "activity");
+  onSaveItems () {
+    const newItem = this.authorApp.getItem();
+    this.setState({
+      items: this.state.items.concat(newItem.item)
+    }, () => this.authorApp.destroy())
+  }
+
+  onGoToAssesment () {
+    this.props.onSave("items", this.state.items);
+    this.props.onSave("currenView", "preview");
   }
 
   render () {
     return (
-      <section className="container">
-        <div className="col-md-12">
-          <button 
-            type="button" 
-            className="btn btn-primary" 
-            onClick={this.initItemEditor}>
-            Add Question
-          </button>
-        </div>
-        <br />
-        <div className="col-md-12">
-          <div id="learnosity-author"></div>
-        </div>
-      </section>
+      <React.Fragment>
+        <Grid container justify="center">
+          <Grid item md={12}>
+            <Button variant="contained" color="primary" onClick={this.initItemEditor}>
+              Add Question
+            </Button>
+
+            <Button variant="contained" onClick={this.onGoToAssesment}>
+              Go to assesment
+            </Button>
+          </Grid>
+          <Grid item md={3}>
+            <List
+              subheader={<ListSubheader component="div">Added Questions</ListSubheader>}
+            >
+              {
+                this.state.items.map(item => (
+                  <ListItem key={item.reference}>
+                    <ListItemText primary={item.title} />
+                  </ListItem>
+                ))
+              }
+            </List>
+          </Grid>
+          <Grid item md={9}>
+            <Paper>
+              <div id="learnosity-author"></div>
+            </Paper>
+          </Grid>
+        </Grid>
+      </React.Fragment>
     )
   }
 }

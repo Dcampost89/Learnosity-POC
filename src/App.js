@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Preview from './components/Preview';
 import Item from './components/Item';
 import Activity from './components/Activity'
+import Report from './components/Report';
 
 class App extends Component {
 
@@ -9,10 +10,9 @@ class App extends Component {
     super(props);
 
     this.state = {
-      questions: [],
-      item: "",
       activity: "",
       items: [],
+      session: null,
       currenView: "item"
     };
 
@@ -32,8 +32,10 @@ class App extends Component {
       ComponentToRender = Item;
     } else if (this.state.currenView === "activity") {
       ComponentToRender = Activity;
-    } else {
+    } else if (this.state.currenView === "preview") {
       ComponentToRender = Preview;
+    } else {
+      ComponentToRender = Report;
     }
     return (
       <div>
@@ -41,7 +43,7 @@ class App extends Component {
           onSave={this.updateContext} 
           activity={this.state.activity} 
           items={this.state.items}
-          item={this.state.item} 
+          session={this.state.session} 
         />
       </div>
     )

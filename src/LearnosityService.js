@@ -33,7 +33,10 @@ export default class LearnosityService {
                     "edit": true
                 },
                 "dynamic_content": true,
-                "shared_passage": true
+                "shared_passage": true,
+                "title": {
+                  "show": true
+                }
               }
           },
           "widget_templates": {
@@ -49,6 +52,11 @@ export default class LearnosityService {
                 "ui": {
                   "layout": {
                     "global_template": "edit"
+                    // "edit_panel": {
+                    //   "mcq": {
+                    //     "layout": "custom_mcq_layout"
+                    //   } 
+                    // }
                   },
                   "help_button": false,
                   "source_button": false,
@@ -226,7 +234,7 @@ export default class LearnosityService {
     });
   }
 
-  preview (activityId, items) {
+  preview (activityId, items, sessionId) {
     console.log('[We are here]')
     const learnositySdk = new Learnosity();
     const request = learnositySdk.init(
@@ -249,12 +257,34 @@ export default class LearnosityService {
         "items": items,
         "name": "Test Activity",
         "rendering_type": "assess",
-        "session_id": "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+        "session_id": sessionId,
         "user_id": "demo_student",
+        "regions": {
+          "top-left": [
+            {
+              "type": "title_element"
+            }
+          ],
+          "top-right": [
+            {
+              "type": "timer_element"                },
+            {
+              "type": "itemcount_element"
+            }
+          ],
+          "items": [
+            {
+              "type": "slider_element"
+            },
+            {
+              "type": "progress_element"
+            }
+          ],
+          "right": []
+        },
         "config": {
           "title": "Math Chapter 2 – Unit 7",
           "subtitle": "Walter White",
-          "regions": "main",
           "navigation": {
               "show_intro": true,
               "show_outro": true,
@@ -264,34 +294,37 @@ export default class LearnosityService {
                   "saveIntervalDuration": 500
               },
           "annotations": "true"
-          },
-          "time": {
-              "max_time": 1500,
-              "limit_type": "soft",
-              "warning_time": 120
-          },
-          "configuration": {
-              "shuffle_items": false,
-              "idle_timeout": {
-                  "interval": 300,
-                  "countdown_time": 60
-              }
           }
         }
       }
     );
 
-    console.log('[request]', request);
+    return request;
+  }
 
-    // Render the item-edit widget
-    this.questionsApp = window.LearnosityItems.init(
-      request, 
-      { 
-        readyListener: () => {
-          console.log('[success] itemsApp initialized');
-          // this.authorApp.on('save:success', this.onSaveSuccessCb.bind(this))
-        } 
+  initReportView (sessionId) {
+    const request = this.learnositySdk.init(
+      {
+        "consumer_key": "yis0TYCu7U9V4o7M",
+        "domain":       "localhost",
+        "user_id":      "demo_student"
+      },
+
+      // secret
+      "74c5fd430cf1242a527f6223aebd42d30464be22",
+
+      {
+        "reports": [
+            {
+              "id": "report-1",
+              "type": "session-detail-by-item",
+              "user_id": "demo_student",
+              "session_id": sessionId
+            }
+        ]
       }
     )
+
+    return request;
   }
 }
