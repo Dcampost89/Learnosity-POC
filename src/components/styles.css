@@ -1,0 +1,47 @@
+.lrn-qe .lrn-qe-ui {
+  font-family: "Lato", "Helvetica", "Open Sans", "Arial", sans-serif !important;
+  color: #868e96 !important;
+}
+
+.lrn .lrn-author-ui .lrn-btn-primary {
+  background: #1862ab !important;
+  border: 1px solid #1862ab !important;
+}
+
+.lrn-qe .lrn-qe-ui .lrn-qe-btn-primary {
+  background: #1862ab !important;
+  border: 1px solid #1862ab !important;
+  border-radius: .5rem !important;
+}
+
+.lrn-qe .lrn-qe-ui .lrn-qe-switch .lrn-qe-input:checked+.lrn-qe-switch-trigger {
+  background: #1862ab !important;
+  border: 1px solid #1862ab !important;
+}
+
+.lrn-qe .lrn-qe-ui .lrn-qe-tabs .lrn-qe-tab-trigger.lrn-active .lrn-qe-form-label-name {
+  color: #4dadf7 !important;
+}
+
+.lrn-qe-form-el-reorder-handle {
+  border-top-left-radius: .5rem !important;
+  border-bottom-left-radius: .5rem !important;
+}
+
+.lrn-qe .lrn-qe-ui .lrn-qe-form-control-ckeditor {
+  border-radius: .5rem !important;
+}
+
+.lrn-qe .lrn-qe-ui .lrn-qe-form-el-reorderable .lrn-qe-form-el-wrapper {
+  border-top-left-radius: 0rem !important;
+  border-bottom-left-radius: 0rem !important;
+}
+
+.lrn-qe .lrn-qe-ui .lrn-qe-form-control {
+  border-radius: .5rem !important;
+}
+
+.lrn_qr.lrn_association .lrn_response .lrn_assoc_question,
+.lrn.lrn_widget .lrn_response_container.lrn_dragdrop {
+  border-radius: .5rem !important;
+}

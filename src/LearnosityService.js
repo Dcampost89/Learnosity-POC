@@ -111,6 +111,22 @@ export default class LearnosityService {
                       "51a8c1e7-f34f-4faf-b211-da458e891fcb",
                       "2fbba51b-e35e-441f-83c7-2662e2e81fa6"
                     ]
+                  },
+                  {
+                    "name": "Classify, Match & Order",
+                    "reference": "match",
+                    "template_references": [
+                      "ef2648de-f826-4674-b17d-71e71889d8e6",
+                      "1fa22aac-1f88-47f7-941b-3c77759549e6",
+                      "0c7f68f7-2be6-4ae0-8492-0ab78c8d0010"
+                    ]
+                  },
+                  {
+                    "name": "Hot Spots",
+                    "reference": "other",
+                    "template_references": [
+                      "8ff43fa9-804b-42e7-9b3e-3cdd7e3a882b"
+                    ]
                   }
                 ]
               }

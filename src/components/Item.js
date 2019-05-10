@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import LearnosityService from '../LearnosityService';
 import uuid from 'uuid/v4';
+import './styles.css';
 import { 
     Grid, 
-    Paper, 
     Button, 
     List, 
     ListItem, 
