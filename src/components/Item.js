@@ -53,8 +53,18 @@ class Item extends Component {
 
   onSaveItems () {
     const newItem = this.authorApp.getItem();
+    const { items } = this.state;
+    let newItemsArray = [];
+    const isTheItemInArray = items.find(item => item.reference === newItem.item.reference);
+
+    if (isTheItemInArray) {
+      newItemsArray = items;
+    } else {
+      newItemsArray = items.concat(newItem.item)
+    }
+
     this.setState({
-      items: this.state.items.concat(newItem.item)
+      items: newItemsArray
     })
   }
 

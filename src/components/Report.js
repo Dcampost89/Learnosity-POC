@@ -26,7 +26,7 @@ class Report extends Component {
   render() {
     return (
       <Grid container justify="center">
-        <Grid md={10} className="learnosity-report" id="report-1"></Grid>
+        <Grid item md={10} className="learnosity-report" id="report-1"></Grid>
       </Grid>
     )
   }

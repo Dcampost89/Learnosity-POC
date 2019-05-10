@@ -54,7 +54,7 @@ class Preview extends Component {
   render() {
     return (
       <Grid container justify="center">
-        <Grid md={10} id="learnosity_assess"></Grid>
+        <Grid item md={10} id="learnosity_assess"></Grid>
       </Grid>
     )
   }
