@@ -28,16 +28,31 @@ export default class LearnosityService {
         "reference": uuid(),
         "config": {
           "item_edit": {
-              "item": {
-                "reference": {
-                    "edit": true
-                },
-                "dynamic_content": true,
-                "shared_passage": true,
-                "title": {
-                  "show": true
+            'widget': {
+              'edit': true,
+              'delete': true
+            },
+            "item": {
+              "reference": {
+                "edit": true
+              },
+              "details": {
+                "source": {
+                  "edit": false
                 }
+              },
+              "mode": {
+                "show": false
+              },
+              "duplicate": {
+                "show": false
+              },
+              "dynamic_content": true,
+              "shared_passage": true,
+              "title": {
+                "show": true
               }
+            }
           },
           "widget_templates": {
             "widget_types": {
@@ -304,6 +319,8 @@ export default class LearnosityService {
 
   initReportView (sessionId) {
     const request = this.learnositySdk.init(
+      "reports", 
+
       {
         "consumer_key": "yis0TYCu7U9V4o7M",
         "domain":       "localhost",

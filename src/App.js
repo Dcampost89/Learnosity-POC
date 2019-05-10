@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Grid } from '@material-ui/core';
 import Preview from './components/Preview';
 import Item from './components/Item';
 import Activity from './components/Activity'
@@ -38,14 +39,14 @@ class App extends Component {
       ComponentToRender = Report;
     }
     return (
-      <div>
+      <Grid container>
         <ComponentToRender 
           onSave={this.updateContext} 
           activity={this.state.activity} 
           items={this.state.items}
           session={this.state.session} 
         />
-      </div>
+      </Grid>
     )
   }
 }

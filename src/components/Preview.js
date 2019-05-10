@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import LearnosityService from '../LearnosityService';
+import { Grid } from '@material-ui/core';
 import uuid from 'uuid/v4';
 
 class Preview extends Component {
@@ -37,7 +38,7 @@ class Preview extends Component {
             sessionId
           })
 
-          this.itemsApp.on("test:finished:submit", () => this.goToReports)
+          this.itemsApp.on("test:submit:success", this.goToReports)
         } 
       }
     )
@@ -45,20 +46,16 @@ class Preview extends Component {
 
   goToReports () {
     console.log('[goToReports]')
-    this.props.onSave({
-      "session": this.state.sessionId
-    })
+    this.props.onSave("session", this.state.sessionId)
 
-    this.props.onSave({
-      "currenView": "report"
-    })
+    this.props.onSave("currenView", "report")
   }
 
   render() {
     return (
-      <section>
-        <div id="learnosity_assess"></div>
-      </section>
+      <Grid container justify="center">
+        <Grid md={10} id="learnosity_assess"></Grid>
+      </Grid>
     )
   }
 }

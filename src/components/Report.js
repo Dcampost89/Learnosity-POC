@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import LearnosityService from '../LearnosityService';
-import uuid from 'uuid/v4';
+import { Grid } from '@material-ui/core';
 
 class Report extends Component {
 
@@ -13,7 +13,8 @@ class Report extends Component {
   }
 
   componentDidMount () {
-    const request = LearnosityService.initReportView(this.props.session);
+    const learnosity = new LearnosityService();
+    const request = learnosity.initReportView(this.props.session);
 
     window.LearnosityReports.init(request, {
       readyListener: () => {
@@ -24,9 +25,9 @@ class Report extends Component {
 
   render() {
     return (
-      <div>
-        <span class="learnosity-report"></span>
-      </div>
+      <Grid container justify="center">
+        <Grid md={10} className="learnosity-report" id="report-1"></Grid>
+      </Grid>
     )
   }
 }
