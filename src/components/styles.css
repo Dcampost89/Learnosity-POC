@@ -23,6 +23,10 @@
   color: #4dadf7 !important;
 }
 
+.cke_textarea_inline .cke_editable .cke_editable_inline .cke_contents_ltr {
+  border-radius: .5rem !important;
+}
+
 .lrn-qe-form-el-reorder-handle {
   border-top-left-radius: .5rem !important;
   border-bottom-left-radius: .5rem !important;
@@ -32,16 +36,44 @@
   border-radius: .5rem !important;
 }
 
-.lrn-qe .lrn-qe-ui .lrn-qe-form-el-reorderable .lrn-qe-form-el-wrapper {
+.lrn-qe-form-el-reorderable .lrn-qe-form-el-wrapper .lrn-qe-form-control {
   border-top-left-radius: 0rem !important;
-  border-bottom-left-radius: 0rem !important;
+  border-bottom-left-radius: 0rem !important
 }
 
-.lrn-qe .lrn-qe-ui .lrn-qe-form-control {
+.lrn-qe-input {
   border-radius: .5rem !important;
 }
 
-.lrn_qr.lrn_association .lrn_response .lrn_assoc_question,
-.lrn.lrn_widget .lrn_response_container.lrn_dragdrop {
+.lrn_assoc_question {
   border-radius: .5rem !important;
+}
+
+.lrn_dropzone {
+  border-radius: .5rem !important;
+}
+
+.lrn_btn_drag {
+  border-radius: .5rem !important;
+}
+
+.lrn-qe-btn-remove {
+  border-radius: .5rem !important;
+}
+
+.lrn_widget.lrn_orderlist .lrn_btn_sort.lrn_button {
+  border-radius: .5rem !important;
+}
+
+.lrn-qe-preview-outer {
+  border-radius: .5rem !important;
+}
+
+.lrn-qe-tab-trigger {
+  border-top-left-radius: .5rem !important;
+  border-top-right-radius: .5rem !important;
+}
+
+.lrn-qe-tab-item .lrn-active {
+  border-top-right-radius: .5rem !important;
 }
