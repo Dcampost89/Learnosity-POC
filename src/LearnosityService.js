@@ -298,20 +298,16 @@ export default class LearnosityService {
           ],
           "top-right": [
             {
-              "type": "timer_element"                },
+              "type": "timer_element"                
+            },
             {
               "type": "itemcount_element"
             }
-          ],
-          "items": [
-            {
-              "type": "slider_element"
-            },
-            {
-              "type": "progress_element"
-            }
-          ],
-          "right": []
+          ]
+        },
+        "navigation": {
+          "show_intro": false,
+          "show_outro": false,
         },
         "config": {
           "title": "Math Chapter 2 – Unit 7",

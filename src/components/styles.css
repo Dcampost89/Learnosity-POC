@@ -77,3 +77,32 @@
 .lrn-qe-tab-item .lrn-active {
   border-top-right-radius: .5rem !important;
 }
+
+.lrn-qe .lrn-qe-ui .lrn-qe-form-control-ckeditor .cke_textarea_inline:focus {
+  outline: none !important;
+}
+
+.lrn-qe-btn-asset-uploader:focus {
+  outline: none !important;
+}
+
+/*Assesments UI*/
+
+.lrn.lrn-assess {
+  font-family: "Lato", "Helvetica", "Open Sans", "Arial", sans-serif !important;
+  color: #868e96 !important;
+}
+
+.lrn.lrn-assess .test-title-text {
+  color: #868e96 !important;
+}
+
+.lrn_btn_blue {
+  background: #1862ab !important;
+  border: 1px solid #1862ab !important;
+  border-radius: 5rem !important;
+}
+
+.lrn-assess .items .progress span {
+  background: #1862ab !important;
+}
