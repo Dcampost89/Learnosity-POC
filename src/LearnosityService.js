@@ -64,6 +64,9 @@ export default class LearnosityService {
               "init_options": {
                 "group_defaults": false,
                 "widget_type": "response",
+                // "label_bundle": {
+                //   "global.edit": "Editing"
+                // },
                 "ui": {
                   "layout": {
                     "global_template": "edit"
@@ -73,25 +76,29 @@ export default class LearnosityService {
                     //   } 
                     // }
                   },
+                  "search_field": false,
                   "help_button": false,
                   "source_button": false,
                   "undo_redo_button": false
                 },
                 "base_question_type": {
+                  "hidden": [
+                    "penalty_score",
+                    "multiple_responses",
+                    "shuffle_options",
+                    "validation.valid_response.score"
+                  ],
                   "hidden_sections": [
                     "more_options.heading",
                     "more_options.divider",
-                    "more_options.content"
+                    "more_options.content",
+                    "validation.alt_responses"
                   ]
                 },
                 "question_types": {
                   "mcq": {
-                      "show": ["multiple_responses", "shuffle_options"],
                       "hidden_sections": [
-                        "layout",
-                        "more_options.heading",
-                        "more_options.divider",
-                        "more_options.content"
+                        "layout"
                       ],
                   }
                 },

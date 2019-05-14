@@ -106,3 +106,8 @@
 .lrn-assess .items .progress span {
   background: #1862ab !important;
 }
+
+/* Removing tabs sub-content boder */
+.lrn-qe .lrn-qe-ui .lrn-qe-tabs .lrn-qe-tab-sub-content {
+  border-top: none !important;
+}
