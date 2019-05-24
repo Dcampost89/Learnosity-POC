@@ -44,14 +44,16 @@ class Item extends Component {
       request, 
       { 
         readyListener: () => {
-          this.authorApp.on('save:success', this.onSaveItems);
-          this.authorApp.on("save", () => console.log('[save item]'));
+          // this.authorApp.on('save:success', this.onSaveItems);
+          this.authorApp.on("save", this.onSaveItems);
+          this.authorApp.on("widgetedit:preview:changed", () => this.authorApp.save());
         } 
       }
     )
   }
 
-  onSaveItems () {
+  onSaveItems (event) {
+    event.preventDefault();
     const newItem = this.authorApp.getItem();
     const { items } = this.state;
     let newItemsArray = [];
