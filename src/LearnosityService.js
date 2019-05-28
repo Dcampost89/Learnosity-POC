@@ -7,7 +7,7 @@ export default class LearnosityService {
     this.learnositySdk = new Learnosity();
   }
 
-  initItemsEditor () {
+  initItemsEditor (itemReference) {
     const request = this.learnositySdk.init(
       // service type
       "author", 
@@ -25,16 +25,18 @@ export default class LearnosityService {
       // request details
       {
         "mode": "item_edit",
-        "reference": uuid(),
+        "reference": itemReference,
         "config": {
           "item_edit": {
             'widget': {
-              'edit': true,
-              'delete': true
+              'edit': false,
+              'delete': false
             },
             "item": {
+              "back": false,
+              "columns": false,
               "reference": {
-                "edit": true
+                "edit": false
               },
               "details": {
                 "source": {
@@ -48,13 +50,11 @@ export default class LearnosityService {
                 "show": false
               },
               "dynamic_content": true,
-              "shared_passage": true,
-              "title": {
-                "show": true
-              }
+              "shared_passage": true
             }
           },
           "widget_templates": {
+            "back": false,
             "widget_types": {
               "show": false
             }
@@ -64,17 +64,10 @@ export default class LearnosityService {
               "init_options": {
                 "group_defaults": false,
                 "widget_type": "response",
-                // "label_bundle": {
-                //   "global.edit": "Editing"
-                // },
                 "ui": {
+                  "change_button": false,
                   "layout": {
                     "global_template": "edit"
-                    // "edit_panel": {
-                    //   "mcq": {
-                    //     "layout": "custom_mcq_layout"
-                    //   } 
-                    // }
                   },
                   "search_field": false,
                   "help_button": false,

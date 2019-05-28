@@ -1,72 +1,55 @@
 import React, { Component } from 'react'
-import LearnosityService from '../LearnosityService';
-import uuid from 'uuid/v4';
 import './styles.css';
 import { 
     Grid, 
     Button, 
-    List, 
-    ListItem, 
-    ListItemText, 
-    ListSubheader,
     AppBar,
     Toolbar,
-    ListItemSecondaryAction,
-    Link
+    Card,
+    CardActions,
+    CardContent
 } from '@material-ui/core'
+import Modal from './Modal';
 
 class Item extends Component {
 
   constructor (props) {
     super(props);
 
-    this.authorApp = null;
     this.state = {
-      items: []
+      items: [],
+      shouldModalOpen: false,
+      itemToEditReference: null,
+      itemToEditWidgetReference: null,
+      isEditingItem: false
     }
 
-    this.initItemEditor = this.initItemEditor.bind(this);
     this.onSaveItems = this.onSaveItems.bind(this);
     this.onGoToAssesment = this.onGoToAssesment.bind(this);
     this.onEditItem = this.onEditItem.bind(this);
     this.onAddItem = this.onAddItem.bind(this);
   }
 
-  componentDidMount () {
-    this.initItemEditor();
-  }
+  onSaveItems (newItem) {
+    console.log('[onSavenewItems]', newItem);
+    const oldItems = this.state.items;
+    let newItems = [];
 
-  initItemEditor () {
-    const learnosityService = new LearnosityService();
-    const request =  learnosityService.initItemsEditor();
+    const itemIndex = oldItems.findIndex(({item}) => item.reference === newItem.item.reference);
 
-    this.authorApp = window.LearnosityAuthor.init(
-      request, 
-      { 
-        readyListener: () => {
-          // this.authorApp.on('save:success', this.onSaveItems);
-          this.authorApp.on("save", this.onSaveItems);
-          this.authorApp.on("widgetedit:preview:changed", () => this.authorApp.save());
-        } 
-      }
-    )
-  }
-
-  onSaveItems (event) {
-    event.preventDefault();
-    const newItem = this.authorApp.getItem();
-    const { items } = this.state;
-    let newItemsArray = [];
-    const isTheItemInArray = items.find(item => item.reference === newItem.item.reference);
-
-    if (isTheItemInArray) {
-      newItemsArray = items;
+    if (itemIndex > -1) {
+      newItems = [...oldItems]
+      newItems[itemIndex] = newItem;
     } else {
-      newItemsArray = items.concat(newItem.item)
+      newItems = oldItems.concat(newItem);
     }
 
     this.setState({
-      items: newItemsArray
+      shouldModalOpen: false,
+      items: newItems,
+      isEditing: false,
+      itemToEditReference: null,
+      itemToEditWidgetReference: null
     })
   }
 
@@ -76,12 +59,19 @@ class Item extends Component {
   }
 
   onAddItem () {
-    const newRef = uuid();
-    this.authorApp.createItem(newRef);
+    this.setState({
+      shouldModalOpen: true
+    })
   }
 
-  onEditItem (itemId) {
-    this.authorApp.editItem(itemId);
+  onEditItem (itemKey) {
+    const {item} = this.state.items[itemKey];
+    this.setState({
+      shouldModalOpen: true,
+      isEditing: true,
+      itemToEditReference: item.reference,
+      itemToEditWidgetReference: item.definition.widgets[0].reference
+    })
   }
 
   render () {
@@ -100,26 +90,31 @@ class Item extends Component {
         </AppBar>
 
         <Grid container justify="center" spacing={24} style={{marginTop: "70px", padding: "0px 15px"}}>
-          <Grid item md={3}>
-            <List
-              subheader={<ListSubheader component="div">Added Questions</ListSubheader>}
-            >
-              {
-                this.state.items.map(item => (
-                  <ListItem key={item.reference}>
-                    <ListItemText primary={item.title} />
-                    <ListItemSecondaryAction>
-                      <Link component="button" onClick={() => this.onEditItem(item.reference)}>Edit</Link>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                ))
-              }
-            </List>
-          </Grid>
-          <Grid item md={9}>
-            <div id="learnosity-author"></div>
-          </Grid>
+          {
+            this.state.items.map(({item}, key) => (
+              <Grid item md={9} key={item.reference}>
+                <Card>
+                  <CardContent>
+                    {item.reference}
+                  </CardContent>
+                  <CardActions>
+                    <Button onClick={() => this.onEditItem(key)}>Edit</Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))
+          }
         </Grid>
+
+        { 
+          this.state.shouldModalOpen &&  
+          <Modal 
+            itemReference={this.state.itemToEditReference} 
+            widgetReference={this.state.itemToEditWidgetReference}
+            isEditing={this.state.isEditingItem} 
+            saveItems={this.onSaveItems}
+          />
+        }
       </React.Fragment>
     )
   }
