@@ -163,7 +163,7 @@ export default class LearnosityService {
         "activity_id":    activityId,
         "name":           "Test",
         "rendering_type": "inline",
-        "state":          "review",
+        "state":          "resume",
         "items":          items,
         "type":           "local_practice",
         "session_id":     sessionId,

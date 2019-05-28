@@ -59,6 +59,9 @@ class Item extends Component {
         this.itemsApp.addItems({
           items: [newItem.item.reference]
         });
+      } else {
+        this.itemsApp.reset();
+        this.initItemsApi();
       }
     })
   }
@@ -98,6 +101,14 @@ class Item extends Component {
     })
   }
 
+  onRemoveItem (itemKey) {
+    const oldItems = [...this.state.items];
+    oldItems.splice(itemKey);
+    this.setState({
+      items: oldItems
+    })
+  }
+
   render () {
     return (
       <React.Fragment>
@@ -120,6 +131,7 @@ class Item extends Component {
                 key={item.item.reference}
                 itemReference={item.item.reference}
                 editItem={() => this.onEditItem(key)}
+                removeItem={() => this.onRemoveItem(key)}
               />
             ))
           }

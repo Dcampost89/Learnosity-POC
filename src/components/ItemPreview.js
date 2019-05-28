@@ -7,7 +7,7 @@ import {
   Grid
 } from '@material-ui/core';
 
-function ItemPreview({itemReference, editItem}) {
+function ItemPreview({itemReference, editItem, removeItem}) {
   return (
     <Grid item xs={8}>
       <Card>
@@ -16,7 +16,7 @@ function ItemPreview({itemReference, editItem}) {
         </CardContent>
         <CardActions>
           <Button onClick={editItem}>Edit</Button>
-          <Button>Delete</Button>
+          <Button onClick={removeItem}>Delete</Button>
         </CardActions>
       </Card>
     </Grid>
