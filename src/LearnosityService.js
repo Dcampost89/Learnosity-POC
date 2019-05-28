@@ -1,5 +1,4 @@
 import Learnosity from 'learnosity-sdk-nodejs';
-import uuid from 'uuid/v4';
 
 export default class LearnosityService {
   constructor () {
@@ -139,6 +138,37 @@ export default class LearnosityService {
           "lastname": "User",
           "email": "demos@learnosity.com"
         }
+      }
+    );
+
+    return request;
+  }
+
+  initItemPReview (activityId, sessionId, items) {
+    const request = this.learnositySdk.init(
+      // service type
+      "items", 
+
+      // security details
+      {
+          "consumer_key": "yis0TYCu7U9V4o7M",
+          "domain":       "localhost",
+          "user_id":      "demo_student"
+      },
+
+      // secret
+      "74c5fd430cf1242a527f6223aebd42d30464be22",
+
+      {
+        "activity_id":    activityId,
+        "name":           "Test",
+        "rendering_type": "inline",
+        "state":          "review",
+        "items":          items,
+        "type":           "local_practice",
+        "session_id":     sessionId,
+        "config ":        {},
+        "user_id":        "demo_student"
       }
     );
 

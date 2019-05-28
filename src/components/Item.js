@@ -4,12 +4,12 @@ import {
     Grid, 
     Button, 
     AppBar,
-    Toolbar,
-    Card,
-    CardActions,
-    CardContent
+    Toolbar
 } from '@material-ui/core'
+import LearnosityService from '../LearnosityService';
+import ItemPreview from './ItemPreview';
 import Modal from './Modal';
+import uuid from 'uuid/v4';
 
 class Item extends Component {
 
@@ -24,6 +24,9 @@ class Item extends Component {
       isEditingItem: false
     }
 
+    this.itemsApp = null;
+    this.activityId = uuid();
+    this.sessionId = uuid();
     this.onSaveItems = this.onSaveItems.bind(this);
     this.onGoToAssesment = this.onGoToAssesment.bind(this);
     this.onEditItem = this.onEditItem.bind(this);
@@ -31,7 +34,6 @@ class Item extends Component {
   }
 
   onSaveItems (newItem) {
-    console.log('[onSavenewItems]', newItem);
     const oldItems = this.state.items;
     let newItems = [];
 
@@ -50,7 +52,29 @@ class Item extends Component {
       isEditing: false,
       itemToEditReference: null,
       itemToEditWidgetReference: null
+    }, () => {
+      if (oldItems.length === 0) {
+        this.initItemsApi()
+      } else if (oldItems.length !== newItems.length) {
+        this.itemsApp.addItems({
+          items: [newItem.item.reference]
+        });
+      }
     })
+  }
+
+  initItemsApi () {
+    const learnosityService = new LearnosityService();
+    const itemsArray = this.state.items.map((item) => item.item.reference);
+    const request =  learnosityService.initItemPReview(this.activityId, this.sessionId, itemsArray);
+    this.itemsApp = window.LearnosityItems.init(
+      request,
+      {
+        readyListener: () => {
+          console.log('[ItemPreview] initialized');
+        }
+      }
+    )
   }
 
   onGoToAssesment () {
@@ -91,17 +115,12 @@ class Item extends Component {
 
         <Grid container justify="center" spacing={24} style={{marginTop: "70px", padding: "0px 15px"}}>
           {
-            this.state.items.map(({item}, key) => (
-              <Grid item md={9} key={item.reference}>
-                <Card>
-                  <CardContent>
-                    {item.reference}
-                  </CardContent>
-                  <CardActions>
-                    <Button onClick={() => this.onEditItem(key)}>Edit</Button>
-                  </CardActions>
-                </Card>
-              </Grid>
+            this.state.items.map((item, key) => (
+              <ItemPreview 
+                key={item.item.reference}
+                itemReference={item.item.reference}
+                editItem={() => this.onEditItem(key)}
+              />
             ))
           }
         </Grid>
