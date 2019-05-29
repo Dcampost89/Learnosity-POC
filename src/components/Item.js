@@ -6,10 +6,9 @@ import {
     AppBar,
     Toolbar
 } from '@material-ui/core'
-import LearnosityService from '../LearnosityService';
 import ItemPreview from './ItemPreview';
 import Modal from './Modal';
-import uuid from 'uuid/v4';
+
 
 class Item extends Component {
 
@@ -26,7 +25,7 @@ class Item extends Component {
 
     this.itemPreviewsArray = [];
     this.onSaveItems = this.onSaveItems.bind(this);
-    this.onGoToAssesment = this.onGoToAssesment.bind(this);
+    // this.onGoToAssesment = this.onGoToAssesment.bind(this);
     this.onEditItem = this.onEditItem.bind(this);
     this.onAddItem = this.onAddItem.bind(this);
   }
@@ -34,14 +33,12 @@ class Item extends Component {
   onSaveItems (newItem) {
     const oldItems = this.state.items;
     let newItems = [];
-    let isEditingAnItem = false;
 
     const itemIndex = oldItems.findIndex(({item}) => item.reference === newItem.item.reference);
 
     if (itemIndex > -1) {
       newItems = [...oldItems]
       newItems[itemIndex] = newItem;
-      isEditingAnItem = true;
     } else {
       newItems = oldItems.concat(newItem);
     }
@@ -52,57 +49,13 @@ class Item extends Component {
       isEditing: false,
       itemToEditReference: null,
       itemToEditWidgetReference: null
-    }, () => {
-      if (!isEditingAnItem) {
-        this.initItemPreview(newItem.item.reference)
-      } else {
-        this.refreshItemPreview(itemIndex);
-      }
     })
   }
 
-  initItemPreview (itemReference) {
-    const learnosityService = new LearnosityService();
-    const activityId = uuid();
-    const sessionId = uuid();
-    const itemsArray = [itemReference];
-    const request =  learnosityService.initItemPReview(activityId, sessionId, itemsArray);
-    const itemsApp = window.LearnosityItems.init(
-      request,
-      {
-        readyListener: () => {
-          console.log('[ItemPreview] initialized');
-        }
-      }
-    )
-
-    const itemPreview = {
-      activityId,
-      sessionId,
-      itemsArray,
-      preview: itemsApp
-    }
-
-    this.itemPreviewsArray.push(itemPreview);
-  }
-
-  refreshItemPreview (itemIndex) {
-    const { activityId, sessionId, itemsArray, preview } = this.itemPreviewsArray[itemIndex];
-    const learnosityService = new LearnosityService();
-    const request =  learnosityService.initItemPReview(activityId, sessionId, itemsArray);
-    preview.reset();
-    const itemsApp = window.LearnosityItems.init(request, {
-      readyListener: () => {
-        console.log('[ItemPreview] initialized');
-      }
-    });
-    this.itemPreviewsArray[itemIndex].preview = itemsApp;
-  }
-
-  onGoToAssesment () {
-    this.props.onSave("items", this.state.items);
-    this.props.onSave("currenView", "preview");
-  }
+  // onGoToAssesment () {
+  //   this.props.onSave("items", this.state.items);
+  //   this.props.onSave("currenView", "preview");
+  // }
 
   onAddItem () {
     this.setState({
@@ -121,12 +74,10 @@ class Item extends Component {
   }
 
   onRemoveItem (itemKey) {
-    const oldItems = [...this.state.items];
-    oldItems.splice(itemKey);
+    const oldItems = this.state.items;
+    const newItems = [...oldItems.slice(0, itemKey), ...oldItems.slice(itemKey + 1)];
     this.setState({
-      items: oldItems
-    }, () => {
-      this.itemPreviewsArray.splice(itemKey);
+      items: newItems
     })
   }
 
@@ -139,9 +90,9 @@ class Item extends Component {
               Add Question
             </Button>
 
-            <Button variant="contained" onClick={this.onGoToAssesment}>
+            {/* <Button variant="contained" onClick={this.onGoToAssesment}>
               Go to assesment
-            </Button>
+            </Button> */}
           </Toolbar>
         </AppBar>
 
@@ -150,7 +101,7 @@ class Item extends Component {
             this.state.items.map((item, key) => (
               <ItemPreview 
                 key={item.item.reference}
-                itemReference={item.item.reference}
+                item={item.item}
                 editItem={() => this.onEditItem(key)}
                 removeItem={() => this.onRemoveItem(key)}
               />
