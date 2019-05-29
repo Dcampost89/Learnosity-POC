@@ -24,9 +24,7 @@ class Item extends Component {
       isEditingItem: false
     }
 
-    this.itemsApp = null;
-    this.activityId = uuid();
-    this.sessionId = uuid();
+    this.itemPreviewsArray = [];
     this.onSaveItems = this.onSaveItems.bind(this);
     this.onGoToAssesment = this.onGoToAssesment.bind(this);
     this.onEditItem = this.onEditItem.bind(this);
@@ -36,12 +34,14 @@ class Item extends Component {
   onSaveItems (newItem) {
     const oldItems = this.state.items;
     let newItems = [];
+    let isEditingAnItem = false;
 
     const itemIndex = oldItems.findIndex(({item}) => item.reference === newItem.item.reference);
 
     if (itemIndex > -1) {
       newItems = [...oldItems]
       newItems[itemIndex] = newItem;
+      isEditingAnItem = true;
     } else {
       newItems = oldItems.concat(newItem);
     }
@@ -53,24 +53,21 @@ class Item extends Component {
       itemToEditReference: null,
       itemToEditWidgetReference: null
     }, () => {
-      if (oldItems.length === 0) {
-        this.initItemsApi()
-      } else if (oldItems.length !== newItems.length) {
-        this.itemsApp.addItems({
-          items: [newItem.item.reference]
-        });
+      if (!isEditingAnItem) {
+        this.initItemPreview(newItem.item.reference)
       } else {
-        this.itemsApp.reset();
-        this.initItemsApi();
+        this.refreshItemPreview(itemIndex);
       }
     })
   }
 
-  initItemsApi () {
+  initItemPreview (itemReference) {
     const learnosityService = new LearnosityService();
-    const itemsArray = this.state.items.map((item) => item.item.reference);
-    const request =  learnosityService.initItemPReview(this.activityId, this.sessionId, itemsArray);
-    this.itemsApp = window.LearnosityItems.init(
+    const activityId = uuid();
+    const sessionId = uuid();
+    const itemsArray = [itemReference];
+    const request =  learnosityService.initItemPReview(activityId, sessionId, itemsArray);
+    const itemsApp = window.LearnosityItems.init(
       request,
       {
         readyListener: () => {
@@ -78,6 +75,28 @@ class Item extends Component {
         }
       }
     )
+
+    const itemPreview = {
+      activityId,
+      sessionId,
+      itemsArray,
+      preview: itemsApp
+    }
+
+    this.itemPreviewsArray.push(itemPreview);
+  }
+
+  refreshItemPreview (itemIndex) {
+    const { activityId, sessionId, itemsArray, preview } = this.itemPreviewsArray[itemIndex];
+    const learnosityService = new LearnosityService();
+    const request =  learnosityService.initItemPReview(activityId, sessionId, itemsArray);
+    preview.reset();
+    const itemsApp = window.LearnosityItems.init(request, {
+      readyListener: () => {
+        console.log('[ItemPreview] initialized');
+      }
+    });
+    this.itemPreviewsArray[itemIndex].preview = itemsApp;
   }
 
   onGoToAssesment () {
@@ -106,6 +125,8 @@ class Item extends Component {
     oldItems.splice(itemKey);
     this.setState({
       items: oldItems
+    }, () => {
+      this.itemPreviewsArray.splice(itemKey);
     })
   }
 
